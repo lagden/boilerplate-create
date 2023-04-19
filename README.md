@@ -3,7 +3,7 @@
 A CLI for starting projects.
 
 ```
-npx @tadashi/boilerplate-create
+npx --yes @tadashi/boilerplate-create
 ```
 
 ...and follow the prompts.
@@ -12,7 +12,7 @@ npx @tadashi/boilerplate-create
 ## API
 
 ```js
-import {create} from 'create-svelte'
+import {create} from '@tadashi/boilerplate-create'
 
 await create('my-app', {
   template: 'rest', // or 'gql' or 'ws' or 'svelte'

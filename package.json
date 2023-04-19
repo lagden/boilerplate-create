@@ -1,6 +1,6 @@
 {
   "name": "@tadashi/boilerplate-create",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "A CLI for starting projects.",
   "keywords": [
     "boilerplate",

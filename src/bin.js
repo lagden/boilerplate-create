@@ -5,7 +5,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import {readFile} from 'node:fs/promises'
 import * as p from '@clack/prompts'
-import {bold, cyan, grey} from 'kleur/colors'
+import {bold, cyan, grey, red} from 'kleur/colors'
 import {create} from './cli.js'
 
 const {name, version} = JSON.parse(await readFile(new URL('../package.json', import.meta.url), {encoding: 'utf8'}))
@@ -89,6 +89,11 @@ const options = await p.group(
 	},
 )
 
+const s = p.spinner()
+s.start('Creating...')
+
+let fail = false
+
 try {
 	await create(cwd, {
 		name: path.basename(path.resolve(cwd)),
@@ -97,6 +102,13 @@ try {
 	})
 } catch (error) {
 	console.error(error)
+	fail = true
+} finally {
+	s.stop('Creating...')
+	if (fail) {
+		p.outro(`${bold(red('Creation failure!'))}`)
+		process.exit(1)
+	}
 }
 
 p.outro('Your project is ready!')
@@ -109,7 +121,7 @@ if (relative !== '') {
 	console.log(`  ${i++}: ${bold(cyan(`cd ${relative}`))}`)
 }
 
-console.log(`  ${i++}: ${bold(cyan('bin/node/zera'))} (or bin/node/zera -m pnpm, etc)`)
+console.log(`  ${i++}: ${bold(cyan('bin/node/zera'))} (or bin/node/zera -m pnpm)`)
 console.log(`  ${i++}: ${bold(cyan('git init && git add -A && git commit -m "Initial commit"'))} (optional)`)
 console.log(`  ${i++}: ${bold(cyan('bin/local/start'))}`)
 
