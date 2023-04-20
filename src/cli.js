@@ -2,7 +2,6 @@ import {copyFile, rm} from 'node:fs/promises'
 import path from 'node:path'
 import util from 'node:util'
 import {exec} from 'node:child_process'
-import {mkdirp} from './utils.js'
 
 const _exec = util.promisify(exec)
 
@@ -12,8 +11,13 @@ export async function create(cwd, options) {
 	const cmds = []
 	const others = []
 
-	mkdirp(cwd)
+	let win = ''
+	if (process.platform === 'win32') {
+		win = 'cmd /c chcp 65001>nul'
+	}
+
 	cmds.push(
+		win,
 		`npx --yes tiged lagden/boilerplate-${options.template}#main ${cwd} --force`,
 		`cd ${cwd}`,
 		'npx --yes tiged lagden/boilerplate-bin/files#main bin --force',
@@ -47,6 +51,11 @@ export async function create(cwd, options) {
 		// 	rm(dockerTemplateFront, {force: true}),
 		// 	rm(dockerTemplateBack, {force: true}),
 		// )
+	} else if (process.platform === 'win32') {
+		cmds.push(
+			'del /s /q /f .rsync-*',
+			'rd /s /q bin\\docker',
+		)
 	} else {
 		cmds.push(
 			'rm .rsync-*',
@@ -54,9 +63,16 @@ export async function create(cwd, options) {
 		)
 	}
 
-	cmds.push('rm -rf .github .gitlab-ci.yml')
+	if (process.platform === 'win32') {
+		cmds.push(
+			'del /s /q /f .gitlab-ci.yml',
+			'rd /s /q .github',
+		)
+	} else {
+		cmds.push('rm -rf .github .gitlab-ci.yml')
+	}
 
-	await _exec(cmds.join(';'))
+	await _exec(cmds.join(' && '))
 
 	others.push(
 		copyFile(fileBaseToCP, fileBase),
