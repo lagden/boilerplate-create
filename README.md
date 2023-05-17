@@ -6,6 +6,13 @@ A CLI for starting projects.
 npx --yes @tadashi/boilerplate-create
 ```
 
+or
+
+```
+npm i -g @tadashi/boilerplate-create
+boilerplate-create
+```
+
 ...and follow the prompts.
 
 

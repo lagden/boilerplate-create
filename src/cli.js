@@ -29,12 +29,19 @@ export async function create(cwd, options) {
 	const fileBaseBack = path.join(cwd, '.conf', 'base.back.sh')
 	let fileBaseToCP
 
+	const fileDevelopment = path.join(cwd, '.conf', 'development.sh')
+	const fileDevelopmentFront = path.join(cwd, '.conf', 'development.front.sh')
+	const fileDevelopmentBack = path.join(cwd, '.conf', 'development.back.sh')
+	let fileDevelopmentToCP
+
 	if (frontend.has(options.template)) {
 		cmds.push('npx --yes tiged lagden/boilerplate-eslint/files/frontend#main . --force')
 		fileBaseToCP = fileBaseFront
+		fileDevelopmentToCP = fileDevelopmentFront
 	} else {
 		cmds.push('npx --yes tiged lagden/boilerplate-eslint/files/backend#main . --force')
 		fileBaseToCP = fileBaseBack
+		fileDevelopmentToCP = fileDevelopmentBack
 	}
 
 	if (options.features) {
@@ -66,6 +73,9 @@ export async function create(cwd, options) {
 		copyFile(fileBaseToCP, fileBase),
 		rm(fileBaseFront, {force: true}),
 		rm(fileBaseBack, {force: true}),
+		copyFile(fileDevelopmentToCP, fileDevelopment),
+		rm(fileDevelopmentFront, {force: true}),
+		rm(fileDevelopmentBack, {force: true}),
 	)
 
 	await Promise.all(others)
