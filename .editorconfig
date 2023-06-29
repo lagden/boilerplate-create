@@ -8,10 +8,10 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-[*.{md,yml,json,graphql}]
+[*.{md,yml,yaml,json,graphql}]
 indent_style = space
 
-[*.{md,yml}]
+[*.{md,yml,yaml}]
 trim_trailing_whitespace = false
 
 [.registry-*]
