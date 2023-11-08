@@ -1,9 +1,9 @@
 import {copyFile, rm} from 'node:fs/promises'
 import path from 'node:path'
-import util from 'node:util'
+import {promisify} from 'node:util'
 import {exec} from 'node:child_process'
 
-const _exec = util.promisify(exec)
+const _exec = promisify(exec)
 
 const frontend = new Set(['svelte'])
 
@@ -17,6 +17,7 @@ export async function create(cwd, options) {
 		separator = ' && '
 	}
 
+	// prettier-ignore
 	cmds.push(
 		`npx --yes tiged lagden/boilerplate-${options.template}#main ${cwd} --force`,
 		`cd ${cwd}`,
@@ -47,28 +48,39 @@ export async function create(cwd, options) {
 	if (options.features) {
 		cmds.push('npx --yes tiged lagden/boilerplate-docker-nodejs/files#main . --force')
 	} else if (process.platform === 'win32') {
-		cmds.push(
-			'del /s /q /f .rsync-*',
-			'rd /s /q bin\\docker',
-		)
+		cmds.push('del /s /q /f .rsync-*', 'rd /s /q bin\\docker')
 	} else {
-		cmds.push(
-			'rm .rsync-*',
-			'rm -rf bin/docker',
-		)
+		cmds.push('rm .rsync-*', 'rm -rf bin/docker')
 	}
 
-	if (process.platform === 'win32') {
-		cmds.push(
-			'del /s /q /f .gitlab-ci.yml',
-			'rd /s /q .github',
-		)
-	} else {
-		cmds.push('rm -rf .github .gitlab-ci.yml')
+	if (options.dockerfile) {
+		cmds.push('npx --yes tiged lagden/boilerplate-docker-nodejs/files#main . --force')
+		if (process.platform === 'win32') {
+			cmds.push('del /s /q /f docker-compose*')
+		} else {
+			cmds.push('rm docker-compose*')
+		}
+	}
+
+	if (options.cicd.includes('github') === false) {
+		if (process.platform === 'win32') {
+			cmds.push('rd /s /q .github')
+		} else {
+			cmds.push('rm -rf .github')
+		}
+	}
+
+	if (options.cicd.includes('gitlab') === false) {
+		if (process.platform === 'win32') {
+			cmds.push('del /s /q /f .gitlab-ci.yml values.y*')
+		} else {
+			cmds.push('rm -rf .gitlab-ci.yml values.y*')
+		}
 	}
 
 	await _exec(cmds.join(separator))
 
+	// prettier-ignore
 	others.push(
 		copyFile(fileBaseToCP, fileBase),
 		rm(fileBaseFront, {force: true}),

@@ -55,8 +55,12 @@ const options = await p.group(
 						value: 'rest',
 					},
 					{
-						label: 'API GraphQL',
+						label: 'API GraphQL Koa',
 						value: 'gql',
+					},
+					{
+						label: 'API GraphQL Yoga',
+						value: 'gql-yoga',
 					},
 					{
 						label: 'Websocket Server',
@@ -71,7 +75,7 @@ const options = await p.group(
 
 		features: () =>
 			p.select({
-				message: 'Would you like to add Docker stack?',
+				message: 'Would you like to add Docker Compose stack?',
 				options: [
 					{
 						label: 'Yes',
@@ -82,6 +86,27 @@ const options = await p.group(
 						value: false,
 					},
 				],
+			}),
+
+		dockerfile: () =>
+			p.confirm({
+				message: 'Keep the Dockerfile?',
+			}),
+
+		cicd: () =>
+			p.multiselect({
+				message: 'Choose the CI/CD options:',
+				options: [
+					{
+						label: 'GitHub',
+						value: 'github',
+					},
+					{
+						label: 'GitLab',
+						value: 'gitlab',
+					},
+				],
+				required: false,
 			}),
 	},
 	{
@@ -99,6 +124,8 @@ try {
 		name: path.basename(path.resolve(cwd)),
 		template: options.template,
 		features: options.features,
+		dockerfile: options.dockerfile,
+		cicd: options.cicd,
 	})
 } catch (error) {
 	console.error(error)
