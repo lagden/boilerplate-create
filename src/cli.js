@@ -45,20 +45,28 @@ export async function create(cwd, options) {
 		fileDevelopmentToCP = fileDevelopmentBack
 	}
 
-	if (options.features) {
+	if ([1, 2].includes(options.features)) {
 		cmds.push('npx --yes tiged lagden/boilerplate-docker-nodejs/files#main . --force')
-	} else if (process.platform === 'win32') {
-		cmds.push('del /s /q /f .rsync-*', 'rd /s /q bin\\docker')
-	} else {
-		cmds.push('rm .rsync-*', 'rm -rf bin/docker')
-	}
+		if (options.features === 2) {
+			if (process.platform === 'win32') {
+				cmds.push('del /s /q /f .rsync-*', 'del /s /q /f docker-compose*')
+			} else {
+				cmds.push('rm .rsync-*', 'rm docker-compose*')
+			}
+		}
 
-	if (options.dockerfile) {
-		cmds.push('npx --yes tiged lagden/boilerplate-docker-nodejs/files#main . --force')
-		if (process.platform === 'win32') {
-			cmds.push('del /s /q /f docker-compose*')
+		if (frontend.has(options.template)) {
+			if (process.platform === 'win32') {
+				cmds.push('del /s /q /f Dockerfile', 'ren Dockerfile.frontend Dockerfile')
+			} else {
+				cmds.push('rm Dockerfile', 'mv Dockerfile.frontend Dockerfile')
+			}
 		} else {
-			cmds.push('rm docker-compose*')
+			if (process.platform === 'win32') {
+				cmds.push('del /s /q /f Dockerfile.frontend')
+			} else {
+				cmds.push('rm Dockerfile.frontend')
+			}
 		}
 	}
 

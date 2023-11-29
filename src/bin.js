@@ -75,22 +75,21 @@ const options = await p.group(
 
 		features: () =>
 			p.select({
-				message: 'Would you like to add Docker Compose stack?',
+				message: 'Choose your stack:',
 				options: [
 					{
-						label: 'Yes',
-						value: true,
+						label: 'Add Docker Compose and Dockerfile',
+						value: 1,
 					},
 					{
-						label: 'No',
-						value: false,
+						label: 'Only Dockerfile',
+						value: 2,
+					},
+					{
+						label: 'Without Docker stuff',
+						value: 3,
 					},
 				],
-			}),
-
-		dockerfile: () =>
-			p.confirm({
-				message: 'Keep the Dockerfile?',
 			}),
 
 		cicd: () =>
@@ -124,7 +123,6 @@ try {
 		name: path.basename(path.resolve(cwd)),
 		template: options.template,
 		features: options.features,
-		dockerfile: options.dockerfile,
 		cicd: options.cicd,
 	})
 } catch (error) {
