@@ -143,7 +143,8 @@ let i = 1
 
 const relative = path.relative(process.cwd(), cwd)
 if (relative !== '') {
-	console.log(`  ${i++}: ${bold(cyan(`cd ${relative}`))}`)
+	const _cyan = cyan(`cd ${relative}`)
+	console.log(`  ${i++}: ${bold(_cyan)}`)
 }
 
 console.log(`  ${i++}: ${bold(cyan('bin/node/zera'))} (or bin/node/zera -m pnpm)`)

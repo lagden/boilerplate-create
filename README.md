@@ -15,7 +15,6 @@ boilerplate-create
 
 ...and follow the prompts.
 
-
 ## API
 
 ```js
@@ -26,7 +25,6 @@ await create('my-app', {
   features: false,
 })
 ```
-
 
 ## License
 
