@@ -1,6 +1,6 @@
 {
   "name": "@tadashi/boilerplate-create",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "A CLI for starting projects.",
   "keywords": [
     "boilerplate",
@@ -34,10 +34,13 @@
     "kleur": "4.1.5"
   },
   "devDependencies": {
-    "eslint": "8.56.0",
-    "eslint-plugin-unicorn": "50.0.1",
-    "eslint-plugin-sonarjs": "0.23.0",
+    "@eslint/eslintrc": "3.0.2",
+    "@eslint/js": "9.0.0",
+    "eslint": "9.0.0",
+    "eslint-plugin-unicorn": "52.0.0",
+    "eslint-plugin-sonarjs": "0.25.1",
+    "globals": "15.0.0",
     "npm-run-all": "4.1.5",
-    "prettier": "3.2.4"
+    "prettier": "3.2.5"
   }
 }

@@ -1,7 +1,7 @@
 import {copyFile, rm} from 'node:fs/promises'
-import path from 'node:path'
 import {promisify} from 'node:util'
 import {exec} from 'node:child_process'
+import path from 'node:path'
 
 const _exec = promisify(exec)
 
