@@ -22,9 +22,6 @@ devDependencies:
   eslint:
     specifier: 9.0.0
     version: 9.0.0
-  eslint-plugin-sonarjs:
-    specifier: 0.25.1
-    version: 0.25.1(eslint@9.0.0)
   eslint-plugin-unicorn:
     specifier: 52.0.0
     version: 52.0.0(eslint@9.0.0)
@@ -559,15 +556,6 @@ packages:
   /escape-string-regexp@4.0.0:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
-    dev: true
-
-  /eslint-plugin-sonarjs@0.25.1(eslint@9.0.0):
-    resolution: {integrity: sha512-5IOKvj/GMBNqjxBdItfotfRHo7w48496GOu1hxdeXuD0mB1JBlDCViiLHETDTfA8pDAVSBimBEQoetRXYceQEw==}
-    engines: {node: '>=16'}
-    peerDependencies:
-      eslint: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
-    dependencies:
-      eslint: 9.0.0
     dev: true
 
   /eslint-plugin-unicorn@52.0.0(eslint@9.0.0):
